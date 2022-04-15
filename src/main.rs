@@ -4,6 +4,7 @@ use std::fs::File;
 use std::io;
 use std::io::prelude::*;
 use std::path::PathBuf;
+use indicatif::ProgressBar;
 #[macro_use]
 extern crate clap;
 
@@ -59,7 +60,6 @@ fn main() -> io::Result<()> {
     let matches = clap_app!(myapp =>
         (name: "BVF Encoder")
         (version: "1.0")
-        (about: "Does awesome things")
         (@arg INPUT_DIRECTORY: +required "Sets the input file to use")
         (@arg OUTPUT_FILE: -o --output +takes_value "Output file name")
         (@arg FRAME_RATE: -r --("frame-rate") +required +takes_value "Input video frame rate")
@@ -70,7 +70,8 @@ fn main() -> io::Result<()> {
     .get_matches();
 
     // File and Metadata
-    let mut file = File::create(matches.value_of("OUTPUT_FILE").unwrap_or("output.bvf")).expect("Couldn't create output file");
+    let filename = matches.value_of("OUTPUT_FILE").unwrap_or("output.bvf");
+    let mut file = File::create(filename).expect("Couldn't create output file");
     let metadata = Metadata {
         frame_rate: matches.value_of("FRAME_RATE").unwrap().parse().unwrap(),
         frame_count: matches.value_of("FRAME_COUNT").unwrap().parse().unwrap(),
@@ -82,7 +83,9 @@ fn main() -> io::Result<()> {
     file.write_all(&metadata.bytes()).unwrap();
 
     // Parse frames
+    let pb = ProgressBar::new(metadata.frame_count.into());
     for n in 1..=metadata.frame_count {
+        pb.inc(1);
         let path = PathBuf::from(matches.value_of("INPUT_DIRECTORY").unwrap()).join(format!("frame{n}.png"));
         let img = image::open(path).expect("Input frame missing");
         let (img_width, img_height) = img.dimensions();
@@ -135,7 +138,8 @@ fn main() -> io::Result<()> {
         // Write frame
         write_frame(&frame, &file);
     }
-
+    pb.finish();
+    println!("Done: Output to {filename}");
     Ok(())
 }
 
