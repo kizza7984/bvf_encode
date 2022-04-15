@@ -1,10 +1,10 @@
 # bvf_encode
 
-Takes a directory of input images and outputs a video in a custom format.
+Takes a directory of input images and outputs a video in a custom 1-bit colour format.
 
 ## Motivation
 
-To create a simple, easy-to-decode video format for displaying on limited hardware such as a graphing calculator.
+To create a simple, easy-to-decode video format for displaying on constrained hardware such as a graphing calculator.
 
 ## Output Format
 
