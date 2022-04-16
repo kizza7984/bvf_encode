@@ -1,14 +1,9 @@
 # bvf_encode
 
-Takes a directory of input images and outputs a video in a custom 1-bit colour format.
-
-## Motivation
-
-To create a simple, easy-to-decode video format for displaying on constrained hardware such as a graphing calculator.
+Takes a directory of input images and outputs a video in a custom 1-bit colour format designed to be simple and easy to decode, for displaying on constrained hardware such as a graphing calculator.
 
 ## Output Format
 
-Creates a binary file.
 Lines in each frame are expressed as vectors from a start pixel to an end pixel with a byte indicating the number of vectors first,
 for example a blank line would be a `0` byte, and a black line would be: `1`, `0`, `127` where the image width is 128, meaning that there is one vector from the start of the line to the end of the line.
 There are no separators indicating frames, when decoding this is inferred from the vertical resolution.
