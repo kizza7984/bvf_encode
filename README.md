@@ -1,6 +1,6 @@
 # bvf_encode
 
-Takes a directory of input images and outputs a video in a 1-bit colour format ("BVF") designed to be simple and easy to decode, for displaying on constrained hardware such as a graphing calculator.
+Takes a directory of input images and outputs a video in a 1-bit colour format ("BVF") designed to be simple and easy to decode, for displaying on constrained hardware such as a [graphing calculator](https://github.com/kizza7984/bvf_play).
 
 ## BVF
 
